@@ -1,0 +1,32 @@
+name: mqtt-lifecycle-reliability-lab
+
+services:
+  broker:
+    image: eclipse-mosquitto:2.1.2-alpine
+    restart: unless-stopped
+    ports:
+      - '127.0.0.1:1883:1883'
+    volumes:
+      - ./infra/mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+      - broker-data:/mosquitto/data
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'mosquitto_sub',
+          '-h',
+          '127.0.0.1',
+          '-t',
+          '$$SYS/broker/version',
+          '-C',
+          '1',
+          '-W',
+          '3',
+        ]
+      interval: 5s
+      timeout: 4s
+      retries: 10
+      start_period: 5s
+
+volumes:
+  broker-data:

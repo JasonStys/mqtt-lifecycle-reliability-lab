@@ -1,0 +1,249 @@
+{
+  "generatedAt": "2026-09-17T03:12:06.104Z",
+  "profile": {
+    "compatibility": "original-json-profile-not-sparkplug-wire-compatible",
+    "namespace": "reliability/v1",
+    "transport": "MQTT-5-semantics"
+  },
+  "scenarios": [
+    {
+      "id": "retained-bootstrap",
+      "observations": [
+        "retained delivery observed: true",
+        "reconstructed temperature: 73.5"
+      ],
+      "passed": true,
+      "purpose": "Prove a late subscriber reconstructs current node state from one retained snapshot.",
+      "timeline": [
+        {
+          "detail": "Node writes a retained current-state envelope.",
+          "event": "publish",
+          "offset": 0,
+          "status": "info"
+        },
+        {
+          "detail": "Consumer subscribes after the telemetry update.",
+          "event": "subscribe",
+          "offset": 1,
+          "status": "info"
+        },
+        {
+          "detail": "Current state reconstructed.",
+          "event": "reconstruct",
+          "offset": 2,
+          "status": "success"
+        }
+      ],
+      "title": "Late consumer state bootstrap"
+    },
+    {
+      "id": "lifecycle-recovery",
+      "observations": [
+        "offline will applied: true",
+        "recovery birth sequence: 2"
+      ],
+      "passed": true,
+      "purpose": "Prove an ungraceful disconnect becomes offline state and a new birth restores trust.",
+      "timeline": [
+        {
+          "detail": "Initial birth establishes birth sequence 1.",
+          "event": "birth",
+          "offset": 0,
+          "status": "success"
+        },
+        {
+          "detail": "Broker publishes the retained offline will.",
+          "event": "network-loss",
+          "offset": 1,
+          "status": "warning"
+        },
+        {
+          "detail": "Reconnect establishes birth sequence 2.",
+          "event": "rebirth",
+          "offset": 2,
+          "status": "success"
+        }
+      ],
+      "title": "Will, reconnect, and rebirth"
+    },
+    {
+      "id": "duplicate-and-ordering",
+      "observations": [
+        "duplicate messages: 1",
+        "out-of-order messages: 1",
+        "current counter: 2"
+      ],
+      "passed": true,
+      "purpose": "Prove message IDs suppress duplicate work and old sequences cannot roll state backward.",
+      "timeline": [
+        {
+          "detail": "Sequence 1 is accepted.",
+          "event": "data",
+          "offset": 0,
+          "status": "success"
+        },
+        {
+          "detail": "Same message ID is redelivered and deduplicated.",
+          "event": "retry",
+          "offset": 1,
+          "status": "warning"
+        },
+        {
+          "detail": "Sequence 2 advances current state.",
+          "event": "data",
+          "offset": 2,
+          "status": "success"
+        },
+        {
+          "detail": "Distinct message with sequence 1 is observed but not applied.",
+          "event": "late-data",
+          "offset": 3,
+          "status": "success"
+        }
+      ],
+      "title": "QoS duplicate and delayed packet"
+    },
+    {
+      "id": "bounded-offline-buffer",
+      "observations": [
+        "high-water mark: 3",
+        "dropped oldest: 2",
+        "final reconstructed value: 4"
+      ],
+      "passed": true,
+      "purpose": "Prove memory is bounded, loss is observable, and surviving telemetry flushes in order.",
+      "timeline": [
+        {
+          "detail": "Node loses its broker session.",
+          "event": "offline",
+          "offset": 0,
+          "status": "warning"
+        },
+        {
+          "detail": "Five updates enter a capacity-three queue.",
+          "event": "overflow",
+          "offset": 1,
+          "status": "warning"
+        },
+        {
+          "detail": "Two oldest updates are deliberately dropped.",
+          "event": "drop-policy",
+          "offset": 2,
+          "status": "info"
+        },
+        {
+          "detail": "Three surviving updates flush after rebirth.",
+          "event": "flush",
+          "offset": 3,
+          "status": "success"
+        }
+      ],
+      "title": "Bounded offline buffering"
+    },
+    {
+      "id": "authorization-boundaries",
+      "observations": [
+        "bad credential denied: true",
+        "cross-node publish denied: true",
+        "cross-group subscription denied: true"
+      ],
+      "passed": true,
+      "purpose": "Prove invalid credentials, cross-node writes, and cross-group reads fail closed.",
+      "timeline": [
+        {
+          "detail": "Invalid secret is rejected.",
+          "event": "authenticate",
+          "offset": 0,
+          "status": "success"
+        },
+        {
+          "detail": "Node cannot write another node namespace.",
+          "event": "publish-acl",
+          "offset": 1,
+          "status": "success"
+        },
+        {
+          "detail": "Consumer cannot read another group.",
+          "event": "subscribe-acl",
+          "offset": 2,
+          "status": "success"
+        }
+      ],
+      "title": "Credential and namespace denial"
+    },
+    {
+      "id": "broker-restart",
+      "observations": [
+        "offline snapshot after restart: true",
+        "restored motor current: 8.25"
+      ],
+      "passed": true,
+      "purpose": "Prove offline truth survives restart and node rebirth restores its metric snapshot.",
+      "timeline": [
+        {
+          "detail": "Broker holds one retained current-state message.",
+          "event": "state",
+          "offset": 0,
+          "status": "success"
+        },
+        {
+          "detail": "Sessions terminate and the retained offline will replaces state.",
+          "event": "restart",
+          "offset": 1,
+          "status": "warning"
+        },
+        {
+          "detail": "Consumer bootstraps the offline truth.",
+          "event": "late-subscribe",
+          "offset": 2,
+          "status": "success"
+        },
+        {
+          "detail": "Node reconnects and republishes its metric snapshot.",
+          "event": "rebirth",
+          "offset": 3,
+          "status": "success"
+        }
+      ],
+      "title": "Persistent retained state across broker restart"
+    }
+  ],
+  "snapshot": [
+    {
+      "birthSequence": 1,
+      "groupId": "plant-a",
+      "lastEvent": "state",
+      "lastReceivedAt": "2026-01-15T12:00:02.250Z",
+      "lastSourceTimestamp": "2026-01-15T12:00:02.000Z",
+      "metrics": {
+        "line.speed": {
+          "dataType": "float64",
+          "name": "line.speed",
+          "quality": "good",
+          "sourceTimestamp": "2026-01-15T12:00:01.250Z",
+          "unit": "rpm",
+          "value": 42
+        }
+      },
+      "nodeId": "edge-01",
+      "online": true,
+      "seq": 1
+    }
+  ],
+  "statistics": {
+    "accepted": 4,
+    "clockSkewWarnings": 0,
+    "duplicateMessages": 0,
+    "duplicateSequences": 0,
+    "gaps": 0,
+    "invalid": 0,
+    "missingMessages": 0,
+    "orphanData": 0,
+    "outOfOrder": 0
+  },
+  "summary": {
+    "failed": 0,
+    "passed": 6,
+    "total": 6
+  }
+}

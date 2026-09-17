@@ -1,0 +1,5 @@
+allowBuilds:
+  esbuild: true
+minimumReleaseAgeExclude:
+  - mqtt@5.16.0
+  - prettier@3.9.7

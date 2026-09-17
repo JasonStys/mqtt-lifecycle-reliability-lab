@@ -1,0 +1,42 @@
+{
+  "name": "mqtt-lifecycle-reliability-lab",
+  "version": "1.0.0",
+  "description": "Deterministic MQTT lifecycle and reliability laboratory for edge telemetry systems.",
+  "type": "module",
+  "private": true,
+  "packageManager": "pnpm@11.19.0",
+  "engines": {
+    "node": ">=22.0.0",
+    "pnpm": ">=11.0.0"
+  },
+  "scripts": {
+    "benchmark": "tsx src/benchmark.ts",
+    "build": "tsc --noEmit && vite build",
+    "clean": "node scripts/clean.mjs",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint . --max-warnings=0",
+    "scenario": "tsx src/cli.ts",
+    "test": "vitest run --coverage",
+    "test:integration": "vitest run --config vitest.integration.config.ts",
+    "test:unit": "vitest run tests/unit",
+    "typecheck": "tsc --noEmit",
+    "verify": "pnpm format:check && pnpm lint && pnpm test && pnpm test:integration && pnpm build && pnpm scenario && pnpm benchmark"
+  },
+  "dependencies": {
+    "mqtt": "5.16.0",
+    "zod": "4.6.5"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@types/node": "24.10.0",
+    "@vitest/coverage-v8": "5.0.1",
+    "eslint": "10.10.0",
+    "prettier": "3.9.7",
+    "tsx": "4.23.13",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.70.0",
+    "vite": "8.3.0",
+    "vitest": "5.0.1"
+  }
+}

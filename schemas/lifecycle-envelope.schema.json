@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/schemas/lifecycle-envelope.schema.json",
+  "title": "Lifecycle Envelope 1.0",
+  "description": "Original JSON lifecycle profile used by this reliability lab; not Sparkplug wire compatible.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "birthSequence",
+    "event",
+    "groupId",
+    "messageId",
+    "metrics",
+    "nodeId",
+    "online",
+    "schemaVersion",
+    "seq",
+    "sourceTimestamp"
+  ],
+  "properties": {
+    "birthSequence": { "type": "integer", "minimum": 0, "maximum": 4294967295 },
+    "event": { "enum": ["birth", "data", "death", "state"] },
+    "groupId": { "$ref": "#/$defs/identifier" },
+    "messageId": { "type": "string", "format": "uuid" },
+    "metrics": {
+      "type": "array",
+      "maxItems": 256,
+      "items": { "$ref": "#/$defs/metric" }
+    },
+    "nodeId": { "$ref": "#/$defs/identifier" },
+    "online": { "type": "boolean" },
+    "reason": { "type": "string", "minLength": 1, "maxLength": 160 },
+    "schemaVersion": { "const": "1.0" },
+    "seq": { "type": "integer", "minimum": 0, "maximum": 255 },
+    "sourceTimestamp": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "pattern": "^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$"
+    },
+    "metric": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["dataType", "name", "quality", "sourceTimestamp", "value"],
+      "properties": {
+        "dataType": { "enum": ["boolean", "float64", "int64", "string"] },
+        "name": { "type": "string", "pattern": "^[a-z][a-z0-9_.-]*$" },
+        "quality": { "enum": ["bad", "good", "uncertain"] },
+        "sourceTimestamp": { "type": "string", "format": "date-time" },
+        "unit": { "type": "string", "minLength": 1, "maxLength": 24 },
+        "value": { "type": ["boolean", "number", "string"] }
+      }
+    }
+  }
+}

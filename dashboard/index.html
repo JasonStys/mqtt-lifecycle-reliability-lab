@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="MQTT lifecycle reliability scenario dashboard with state, fault, and validation evidence."
+    />
+    <title>Lifecycle Reliability Lab</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to results</a>
+    <header class="masthead">
+      <div>
+        <p class="eyebrow">Deterministic edge telemetry</p>
+        <h1>Lifecycle Reliability Lab</h1>
+        <p class="lede">
+          Evidence for reconnects, retained state, duplicate delivery, ordering, backpressure, and
+          access boundaries.
+        </p>
+      </div>
+      <div id="overall-status" class="status-panel" aria-live="polite">Loading report…</div>
+    </header>
+
+    <main id="main">
+      <section aria-labelledby="summary-heading">
+        <div class="section-heading">
+          <p class="eyebrow">Current snapshot</p>
+          <h2 id="summary-heading">System state</h2>
+        </div>
+        <div id="summary" class="summary-grid" aria-live="polite"></div>
+      </section>
+
+      <section aria-labelledby="scenario-heading">
+        <div class="section-heading">
+          <p class="eyebrow">Fault campaign</p>
+          <h2 id="scenario-heading">Scenario evidence</h2>
+        </div>
+        <div id="scenarios" class="scenario-grid"></div>
+      </section>
+    </main>
+
+    <footer>
+      <p>Generated locally from the same deterministic scenario suite used in CI.</p>
+    </footer>
+    <script type="module" src="/app.ts"></script>
+  </body>
+</html>

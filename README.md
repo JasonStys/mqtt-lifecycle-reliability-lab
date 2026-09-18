@@ -132,6 +132,7 @@ current line anchors are listed in [the code map](docs/code-map.md).
 - [Security model](docs/security.md)
 - [Reliability findings](docs/reports/reliability-findings.md)
 - [Validation report](docs/reports/validation-report.md)
+- [Latest maintenance audit](docs/reports/maintenance-audit-2026-09-18.md)
 - [References](docs/references.md)
 
 ## License

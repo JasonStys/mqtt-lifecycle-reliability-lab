@@ -2,6 +2,15 @@
 
 # Portfolio synchronization — 2026-10-22
 
+## Follow-up dependency review
+
+Dependabot created additional proposals after the first integration merged.
+This separately validated follow-up retains their commit ancestry and reconciles
+the complete dependency union rather than restoring an older package manifest.
+Vitest and its coverage provider remain matched; current runtime and security
+fixes are preserved. All native checks must pass on the new exact source head
+before a normal merge. The earlier review below remains historical context.
+
 By Jason Stys. Source baseline: `59d6d49364103a1704c8301b06b7550c540f861a`.
 
 Reviewed original proposals: [#18](https://github.com/JasonStys/mqtt-lifecycle-reliability-lab/pull/18), [#19](https://github.com/JasonStys/mqtt-lifecycle-reliability-lab/pull/19), [#20](https://github.com/JasonStys/mqtt-lifecycle-reliability-lab/pull/20), [#21](https://github.com/JasonStys/mqtt-lifecycle-reliability-lab/pull/21), [#22](https://github.com/JasonStys/mqtt-lifecycle-reliability-lab/pull/22). Their commit ancestry is retained in a combined integration candidate; a normal merge is permitted only after that exact candidate passes applicable native workflows. No branch protection, test threshold, security scan or failing step is bypassed. Historical references and intentionally separate experiments are preserved.

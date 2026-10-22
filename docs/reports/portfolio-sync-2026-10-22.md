@@ -10,4 +10,4 @@ Dependency manifests are reconciled as the union of proposed dependency changes,
 
 Validation is commit-specific: use this repository's [Actions](https://github.com/JasonStys/mqtt-lifecycle-reliability-lab/actions) and integration PR checks. This record describes the reviewed work, not a claim that a future revision has already passed. Default-branch checks are verified again after merge. Private full audit and Actions backups stay on the owner's PC, outside public source.
 
-The Docker updater had no supported manifest at its configured root. That nonexistent-target updater is removed while the npm/action update lanes remain. CodeQL actions are grouped and pinned together; a failed dependency updater is not evidence that application tests failed.
+The Docker updater looked for Dockerfiles/Kubernetes manifests although this repository has `compose.yaml`. It now uses GitHub's supported `docker-compose` ecosystem instead of disabling image updates. The npm/action lanes remain. CodeQL actions are grouped and pinned together; a failed dependency updater is not evidence that application tests failed.

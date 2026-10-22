@@ -24,19 +24,19 @@
     "verify": "pnpm format:check && pnpm lint && pnpm test && pnpm test:integration && pnpm build && pnpm scenario && pnpm benchmark"
   },
   "dependencies": {
-    "mqtt": "5.16.0",
-    "zod": "4.6.5"
+    "mqtt": "5.16.1",
+    "zod": "4.6.7"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
-    "@types/node": "24.19.1",
-    "@vitest/coverage-v8": "5.0.3",
-    "eslint": "10.11.0",
-    "prettier": "3.9.9",
+    "@types/node": "24.19.2",
+    "@vitest/coverage-v8": "5.0.5",
+    "eslint": "10.12.0",
+    "prettier": "3.9.10",
     "tsx": "4.23.15",
     "typescript": "6.0.3",
-    "typescript-eslint": "8.71.0",
-    "vite": "8.3.2",
-    "vitest": "5.0.3"
+    "typescript-eslint": "8.71.2",
+    "vite": "8.3.4",
+    "vitest": "5.0.5"
   }
 }

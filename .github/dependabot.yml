@@ -20,7 +20,10 @@ updates:
       interval: weekly
       day: monday
     open-pull-requests-limit: 5
-  - package-ecosystem: docker
+    groups:
+      codeql-actions:
+        patterns: ['github/codeql-action/*']
+  - package-ecosystem: docker-compose
     directory: /
     schedule:
       interval: weekly

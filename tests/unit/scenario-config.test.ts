@@ -26,7 +26,7 @@ describe('deterministic helpers', () => {
 describe('scenario suite', () => {
   it('passes all required reliability scenarios', () => {
     const report = runScenarioSuite('2026-01-15T12:00:00.000Z');
-    expect(report.summary).toEqual({ failed: 0, passed: 6, total: 6 });
+    expect(report.summary).toEqual({ failed: 0, passed: 7, total: 7 });
     expect(report.scenarios.map((scenario) => scenario.id)).toEqual([
       'retained-bootstrap',
       'lifecycle-recovery',
@@ -34,6 +34,7 @@ describe('scenario suite', () => {
       'bounded-offline-buffer',
       'authorization-boundaries',
       'broker-restart',
+      'checkpoint-recovery',
     ]);
   });
 });

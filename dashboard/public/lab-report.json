@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-17T03:12:06.104Z",
+  "generatedAt": "2026-11-09T23:07:02.794Z",
   "profile": {
     "compatibility": "original-json-profile-not-sparkplug-wire-compatible",
     "namespace": "reliability/v1",
@@ -206,6 +206,38 @@
         }
       ],
       "title": "Persistent retained state across broker restart"
+    },
+    {
+      "id": "checkpoint-recovery",
+      "observations": [
+        "expired batches: 1",
+        "capacity drops: 1",
+        "replayed batches: 2",
+        "final temperature: 4.4 celsius"
+      ],
+      "passed": true,
+      "purpose": "Restore cold-chain measurements after process replacement; show expiry, capacity loss, and new-birth replay.",
+      "timeline": [
+        {
+          "detail": "Four offline temperature batches captured without credentials.",
+          "event": "checkpoint",
+          "offset": 0,
+          "status": "info"
+        },
+        {
+          "detail": "One expired batch and one capacity-shrink loss are explicitly counted.",
+          "event": "restore",
+          "offset": 1,
+          "status": "warning"
+        },
+        {
+          "detail": "Two live batches retain source times and receive birth 2, sequences 1 and 2.",
+          "event": "replay",
+          "offset": 2,
+          "status": "success"
+        }
+      ],
+      "title": "TTL-aware checkpoint recovery"
     }
   ],
   "snapshot": [
@@ -213,14 +245,14 @@
       "birthSequence": 1,
       "groupId": "plant-a",
       "lastEvent": "state",
-      "lastReceivedAt": "2026-01-15T12:00:02.250Z",
-      "lastSourceTimestamp": "2026-01-15T12:00:02.000Z",
+      "lastReceivedAt": "2026-01-15T12:00:02.500Z",
+      "lastSourceTimestamp": "2026-01-15T12:00:02.250Z",
       "metrics": {
         "line.speed": {
           "dataType": "float64",
           "name": "line.speed",
           "quality": "good",
-          "sourceTimestamp": "2026-01-15T12:00:01.250Z",
+          "sourceTimestamp": "2026-01-15T12:00:01.500Z",
           "unit": "rpm",
           "value": 42
         }
@@ -243,7 +275,7 @@
   },
   "summary": {
     "failed": 0,
-    "passed": 6,
-    "total": 6
+    "passed": 7,
+    "total": 7
   }
 }

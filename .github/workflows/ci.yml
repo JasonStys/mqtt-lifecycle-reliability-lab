@@ -59,6 +59,9 @@ jobs:
       - name: Generate scenario evidence
         run: pnpm scenario
 
+      - name: Rehearse checkpoint persistence and recovery
+        run: pnpm recovery
+
       - name: Run ingestion performance gate
         run: pnpm benchmark
 

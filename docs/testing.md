@@ -62,3 +62,11 @@ pull requests, a weekly schedule, and manual dispatch.
 - Formal Sparkplug conformance.
 
 These are explicit follow-on integration targets, not implicit claims.
+
+## Recovery regression gates
+
+`pnpm recovery` now runs in both Node CI matrix jobs as an additional file-based cold-chain
+rehearsal. The original formatting, lint, coverage thresholds, integration campaign, dashboard
+build, scenario and benchmark checks are retained. Unit coverage includes the checkpoint queue,
+node recovery and fixture workflow. A second integration test uses actual temporary files and
+cleans only its own directory. Latest evidence: [2026-11-09 recovery validation](reports/recovery-2026-11-09.md).

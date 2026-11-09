@@ -21,7 +21,8 @@
     "test:integration": "vitest run --config vitest.integration.config.ts",
     "test:unit": "vitest run tests/unit",
     "typecheck": "tsc --noEmit",
-    "verify": "pnpm format:check && pnpm lint && pnpm test && pnpm test:integration && pnpm build && pnpm scenario && pnpm benchmark"
+    "verify": "pnpm format:check && pnpm lint && pnpm test && pnpm test:integration && pnpm build && pnpm scenario && pnpm recovery && pnpm benchmark",
+    "recovery": "tsx src/recovery-cli.ts"
   },
   "dependencies": {
     "mqtt": "5.16.1",

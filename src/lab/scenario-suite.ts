@@ -4,6 +4,7 @@
  * @exports runScenarioSuite.
  * @data each scenario owns an isolated harness so failures cannot contaminate later evidence.
  */
+import { prepareRecoveryRehearsal } from './recovery-rehearsal.ts';
 import type { Metric } from '../core/contracts.ts';
 import { buildLifecycleTopic } from '../core/topic.ts';
 import { createDeterministicClock, createDeterministicIdFactory } from './determinism.ts';
@@ -36,6 +37,7 @@ export function runScenarioSuite(generatedAt = new Date().toISOString()): LabRep
     boundedOfflineBufferScenario(),
     authorizationScenario(),
     brokerRestartScenario(),
+    checkpointRecoveryScenario(),
   ];
   const finalHarness = createHarness();
   finalHarness.consumer.connect();
@@ -402,4 +404,42 @@ function scenario(
   timeline: readonly TimelineEntry[],
 ): ScenarioResult {
   return { id, observations, passed, purpose, timeline, title };
+}
+
+/** Exposes recovery loss accounting and original timestamps in the existing dashboard evidence view. */
+function checkpointRecoveryScenario(): ScenarioResult {
+  const rehearsal = prepareRecoveryRehearsal();
+  const result = rehearsal.recover(rehearsal.checkpoint);
+  return scenario(
+    'checkpoint-recovery',
+    'TTL-aware checkpoint recovery',
+    'Restore cold-chain measurements after process replacement; show expiry, capacity loss, and new-birth replay.',
+    result.passed,
+    [
+      `expired batches: ${result.restore.expired}`,
+      `capacity drops: ${result.restore.capacityDropped}`,
+      `replayed batches: ${result.statistics.outbox.replayed}`,
+      `final temperature: ${String(result.finalValue)} celsius`,
+    ],
+    [
+      entry(
+        0,
+        'checkpoint',
+        'Four offline temperature batches captured without credentials.',
+        'info',
+      ),
+      entry(
+        1,
+        'restore',
+        'One expired batch and one capacity-shrink loss are explicitly counted.',
+        'warning',
+      ),
+      entry(
+        2,
+        'replay',
+        'Two live batches retain source times and receive birth 2, sequences 1 and 2.',
+        result.passed ? 'success' : 'failure',
+      ),
+    ],
+  );
 }

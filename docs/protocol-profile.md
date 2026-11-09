@@ -75,3 +75,10 @@ state or complete event history has higher operational value.
 The executable Zod schema in `src/core/contracts.ts` is the runtime authority. The matching JSON
 Schema in `schemas/lifecycle-envelope.schema.json` supports other languages and review tooling. A
 contract change requires tests, schema updates, and a versioning decision.
+
+## Offline recovery extension
+
+The optional `outbox-1` checkpoint is an application persistence format, separate from the wire
+envelope. Replay creates a new birth/sequence, preserving metric source timestamps and original
+expiry. Birth exhaustion now fails explicitly instead of silently wrapping. See
+[checkpoint recovery](checkpoint-recovery.md) for bounds, losses and at-least-once limitations.

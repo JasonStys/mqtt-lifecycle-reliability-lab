@@ -22,6 +22,8 @@ claims interoperability it does not provide.
 - Last-will offline state, reconnect, and birth-sequence recovery.
 - Message-ID deduplication plus unsigned 8-bit sequence analysis.
 - Bounded offline buffering with measurable `drop-oldest` and `reject-newest` policies.
+- Versioned, identity-bound offline checkpoints, original measurement TTLs, and explicit recovery loss accounting.
+- A cold-chain process-replacement rehearsal that saves and reloads actual checkpoint files.
 - Deny-by-default node publish and group subscription authorization.
 - Deterministic fault injection and machine-readable scenario timelines.
 - A responsive, framework-free dashboard that renders generated evidence safely.
@@ -37,7 +39,7 @@ pnpm verify
 ```
 
 `pnpm verify` formats-checks, type-checks, lints, runs unit and integration tests, builds the
-dashboard, generates the fault report, and runs the ingestion benchmark. The report is written to
+dashboard, generates the fault report, rehearses actual checkpoint file recovery, and runs the ingestion benchmark. The report is written to
 `artifacts/lab-report.json` and copied to `dashboard/public/lab-report.json`.
 
 To inspect the dashboard locally:
@@ -60,9 +62,18 @@ Then open the address printed by Vite. The test suite does not require Docker or
 | Authorization boundaries | Bad secret and cross-namespace requests            | Authentication and both ACL violations are denied                      |
 | Broker restart           | Sessions disappear while retained storage persists | Late consumer sees offline truth; rebirth restores the metric snapshot |
 
-Current checked validation evidence: **6/6 scenarios**, **24/24 unit tests**, **1/1 integration
-test**, and **94.94% line coverage**. See [the validation report](docs/reports/validation-report.md)
-for the environment and exact commands.
+The campaign now includes a seventh scenario: a cold-chain publisher restarts after an outage,
+expires one old temperature batch, records one capacity-shrink loss, and replays two live batches
+under a new birth sequence while keeping their original source timestamps. The dashboard includes
+its loss counts and timeline. See [the recovery guide](docs/checkpoint-recovery.md) and
+[the latest validation report](docs/reports/recovery-2026-11-09.md).
+
+```bash
+pnpm recovery
+```
+
+This command writes a new `artifacts/recovery-*/checkpoint.json`, reloads those bytes into a fresh
+node, and writes the verified report alongside it. It never connects to an external broker.
 
 ## Architecture
 
@@ -88,11 +99,16 @@ adapter behind application logic.
 | ------------------------ | ----------------------------------------------------------- | ---------------------------------------------------------- |
 | `StateStore.ingest`      | Validate, deduplicate, classify, and merge one delivery     | O(m) time for `m` metrics; O(n × m) state across `n` nodes |
 | `assessSequence`         | Classify next, gap, duplicate, or late sequence across wrap | O(1) time and space                                        |
-| `BoundedOutbox.enqueue`  | Apply explicit overflow policy                              | O(1) amortized enqueue; capacity-bounded space             |
+| `BoundedOutbox.enqueue`  | Apply explicit overflow policy                              | O(c) overflow shift; capacity-bounded space                |
 | `AuthorizationPolicy`    | Enforce node ownership and group read scope                 | O(t) in topic length; O(1) auxiliary space                 |
 | `InMemoryBroker`         | Model retained messages, subscriptions, wills, and restart  | O(s) delivery for `s` subscriptions                        |
 | `runScenarioSuite`       | Execute isolated failure campaigns and aggregate evidence   | O(events + deliveries)                                     |
 | `MqttLifecyclePublisher` | Configure MQTT 5 and publish validated QoS 1 envelopes      | Network-bound; hidden QoS 0 queuing disabled               |
+
+`RecoveryOutbox` checks and filters at most 1,000 queued batches on each operation, so expiry and
+FIFO removal cost O(c + m) for capacity c and batch size m. Checkpoint parsing is bounded to 1 MiB;
+all batches contain 1..256 validated metrics. Lifetime statistics cover this queue instance;
+`restored`, `expired`, and policy losses explain recovery rather than inventing historic counters.
 
 ## Repository map
 
@@ -127,6 +143,7 @@ current line anchors are listed in [the code map](docs/code-map.md).
 
 - [Architecture](docs/architecture.md)
 - [Protocol profile](docs/protocol-profile.md)
+- [Checkpoint recovery](docs/checkpoint-recovery.md)
 - [Testing strategy](docs/testing.md)
 - [Operations runbook](docs/runbook.md)
 - [Security model](docs/security.md)

@@ -39,7 +39,7 @@ This catalog gives every tracked file a single responsibility. Generated directo
 | `src/lab/determinism.ts`        | Fixed-step clock and deterministic UUID factory.                              |
 | `src/lab/edge-node.ts`          | Birth/data/death/state publisher with bounded offline buffering.              |
 | `src/lab/in-memory-broker.ts`   | Deterministic authentication, ACL, retained, will, replay, and restart model. |
-| `src/lab/scenario-suite.ts`     | Six isolated reliability and security fault campaigns.                        |
+| `src/lab/scenario-suite.ts`     | Seven isolated reliability and security fault campaigns.                      |
 | `src/lab/state-consumer.ts`     | Group subscription, state-store ingestion, and observation capture.           |
 | `src/mqtt/config.ts`            | Environment validation and secret-safe diagnostics.                           |
 | `src/mqtt/mqtt-publisher.ts`    | MQTT.js v5 QoS 1 publisher boundary.                                          |
@@ -95,3 +95,15 @@ This catalog gives every tracked file a single responsibility. Generated directo
 | `docs/runbook.md`                                   | Build, evidence, dashboard, broker, troubleshooting, and release procedures. |
 | `docs/security.md`                                  | Assets, trust boundaries, controls, abuse cases, and deployment gaps.        |
 | `docs/testing.md`                                   | Risk-based test pyramid, commands, CI behavior, and explicit limitations.    |
+
+## Recovery workflow additions
+
+| File                                                  | Responsibility                                                                                          |
+| ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| `src/core/recovery-outbox.ts`                         | Strict checkpoint schema, TTL queue, identity-neutral restore/loss accounting, publish retry retention. |
+| `src/lab/recovery-rehearsal.ts`                       | Fictional cold-chain process replacement with independently checked consumer results.                   |
+| `src/recovery-cli.ts`                                 | Exclusive checkpoint/report files and actual read-back rehearsal.                                       |
+| `tests/unit/recovery-outbox.test.ts`                  | Independent checkpoint, expiry, corruption, counters, retry and lifecycle tests.                        |
+| `tests/integration/recovery-file.integration.test.ts` | Actual filesystem round trip into node/broker/consumer.                                                 |
+| `docs/checkpoint-recovery.md`                         | Recovery operation, schema, safety boundaries and examples.                                             |
+| `docs/reports/recovery-2026-11-09.md`                 | Measured local validation and explicit hosted test limits.                                              |

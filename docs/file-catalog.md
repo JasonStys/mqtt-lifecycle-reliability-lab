@@ -107,3 +107,13 @@ This catalog gives every tracked file a single responsibility. Generated directo
 | `tests/integration/recovery-file.integration.test.ts` | Actual filesystem round trip into node/broker/consumer.                                                 |
 | `docs/checkpoint-recovery.md`                         | Recovery operation, schema, safety boundaries and examples.                                             |
 | `docs/reports/recovery-2026-11-09.md`                 | Measured local validation and explicit hosted test limits.                                              |
+
+## Reviewed documentation editions
+
+| File                                               | Responsibility                                                                              |
+| -------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| `docs/handbook.md`                                 | Organized entry point for current usage, architecture, safety and validation documentation. |
+| `docs/reports/project-guide.docx`                  | Every-page-reviewed Word guide to the cited source, operation and explicit boundaries.      |
+| `docs/reports/publications.json`                   | Exact Office byte digests, visual approval scopes and immutable source/evidence identities. |
+| `docs/reports/documentation-refresh-2026-11-09.md` | Dated documentation integration checks and interpretation limits.                           |
+| `.gitattributes`                                   | LF text normalization and explicit Word binary handling.                                    |

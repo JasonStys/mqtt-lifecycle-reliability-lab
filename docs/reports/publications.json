@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "project": "mqtt-lifecycle-reliability-lab",
+  "author": "Jason Stys",
+  "editionDate": "2026-11-09",
+  "sourceBaseline": "e5c92255e978f36eee169390add6fdff5291fe2f",
+  "sourceUrl": "https://github.com/JasonStys/mqtt-lifecycle-reliability-lab/tree/e5c92255e978f36eee169390add6fdff5291fe2f",
+  "functionalEvidenceBaseline": "e5c92255e978f36eee169390add6fdff5291fe2f",
+  "evidenceObservedAt": "2026-11-10T05:25:40.628667+00:00",
+  "workflowEvidence": [
+    {
+      "conclusion": "success",
+      "databaseId": 42720043409,
+      "event": "push",
+      "headSha": "e5c92255e978f36eee169390add6fdff5291fe2f",
+      "name": "CI",
+      "status": "completed",
+      "url": "https://github.com/JasonStys/mqtt-lifecycle-reliability-lab/actions/runs/42720043409"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 42720043365,
+      "event": "push",
+      "headSha": "e5c92255e978f36eee169390add6fdff5291fe2f",
+      "name": "CodeQL",
+      "status": "completed",
+      "url": "https://github.com/JasonStys/mqtt-lifecycle-reliability-lab/actions/runs/42720043365"
+    }
+  ],
+  "summary": "Persist and restore identity-bound bounded recovery outboxes with original times, TTL/capacity losses and publish-failure retention.",
+  "rationale": "Turns reconnect demonstrations into reproducible cold-recovery workflows with explicit at-least-once limits.",
+  "limitations": [
+    "Trusted cleartext checkpoints use explicit persistence; no fsync/crash-atomic, distributed exactly-once or fencing guarantee is made.",
+    "Copying a snapshot into separate fresh processes can replay messages more than once; callers must stop old publishers and use unique message IDs.",
+    "Count-bounded batches can exceed the checkpoint byte cap; export fails instead of silently truncating."
+  ],
+  "documents": [
+    {
+      "filename": "project-guide.docx",
+      "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "bytes": 45884,
+      "sha256": "72bfd4f0a3dec22ecb251dd7bde3d2d124076258b2a24352aaaa3618ddecd2b1",
+      "sourceBaseline": "e5c92255e978f36eee169390add6fdff5291fe2f",
+      "visualReview": {
+        "approved": true,
+        "method": "Every rendered page individually viewed at readable original resolution",
+        "pageCount": 6,
+        "renderedPageSha256": {
+          "page-1.png": "60785ad25a41f9884158cd258ce8e4051974e8b005da6e33f2db952ce3923029",
+          "page-2.png": "57f16d43121f2e0f6b892b2f2d7909a1dcc44b166738a2f842a9e69cc4aa3c39",
+          "page-3.png": "c152c6cc4067b36c77bae95b805ada117da2b8fb273930763a09b7b8ee018aa7",
+          "page-4.png": "0c06e165226192c2fe9ce6410c2dc69413de625a7e827293fb8662d707cf47f6",
+          "page-5.png": "0b2f11f4124a5a71ab49656416b1eecbc8dc1426757a47ccf8afef87f06ffa69",
+          "page-6.png": "d6c281d999c5304a5f648bf68c06dff61386a35d72199650727fbb8982679500"
+        }
+      }
+    }
+  ],
+  "scope": "Reviewed documentation editions of the cited source. Checksums identify bytes, not authorship. Historical measurements retain their own dates; integration CI must be checked separately."
+}

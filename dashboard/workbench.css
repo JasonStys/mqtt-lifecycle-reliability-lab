@@ -1,0 +1,138 @@
+/** @file Practical lifecycle campaign editor. @description Responsive, keyboard-visible native/browser controls. */
+.workbench {
+  background: #fff;
+  border: 1px solid #bdccdf;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  color: #14243b;
+}
+.workbench h2,
+.workbench h3 {
+  margin-top: 0;
+}
+.workbench header,
+.campaign-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+.workbench header h2 {
+  margin-right: auto;
+  margin-bottom: 0;
+}
+.workbench button,
+.workbench select,
+.workbench input {
+  font: inherit;
+  min-height: 2.5rem;
+  border: 1px solid #6e84a2;
+  border-radius: 0.35rem;
+  padding: 0.45rem 0.7rem;
+  background: #fff;
+  color: #14243b;
+}
+.workbench button {
+  cursor: pointer;
+  font-weight: 600;
+}
+.workbench button:hover:not(:disabled) {
+  background: #e2edff;
+}
+.workbench button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.workbench :focus-visible {
+  outline: 3px solid #0868d5;
+  outline-offset: 3px;
+}
+.campaign-columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  gap: 1.5rem;
+}
+.campaign-settings {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+}
+.campaign-settings label {
+  display: grid;
+  gap: 0.3rem;
+  font-weight: 600;
+}
+.campaign-settings input,
+.campaign-settings select {
+  width: 100%;
+  box-sizing: border-box;
+}
+.workbench textarea {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 28rem;
+  font:
+    0.85rem/1.45 ui-monospace,
+    monospace;
+  padding: 1rem;
+  border: 1px solid #6e84a2;
+  border-radius: 0.4rem;
+}
+.workbench pre {
+  font:
+    0.82rem/1.5 ui-monospace,
+    monospace;
+  padding: 1rem;
+  max-height: 23rem;
+  overflow: auto;
+  background: #f1f5fa;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.workbench [role='alert'] {
+  color: #a31515;
+  white-space: pre-wrap;
+}
+.workbench [role='status'] {
+  color: #194669;
+}
+.campaign-table {
+  overflow: auto;
+}
+.workbench table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.8rem 0;
+}
+.workbench th,
+.workbench td {
+  padding: 0.45rem;
+  border-bottom: 1px solid #cbd4e2;
+  text-align: left;
+  font-size: 0.9rem;
+}
+.workbench dialog {
+  max-width: 42rem;
+  border: 1px solid #7185a5;
+  border-radius: 0.8rem;
+  padding: 1.5rem;
+}
+.workbench dialog::backdrop {
+  background: #07182d99;
+}
+@media (max-width: 850px) {
+  .campaign-columns {
+    grid-template-columns: 1fr;
+  }
+  .workbench {
+    padding: 1rem;
+  }
+}
+@media (max-width: 420px) {
+  .campaign-settings {
+    grid-template-columns: 1fr;
+  }
+}

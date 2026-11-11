@@ -11,3 +11,10 @@ infra/mosquitto/log/
 *.log
 .DS_Store
 Thumbs.db
+
+.runtime/
+release/
+desktop/node_modules/
+__pycache__/
+*.pyc
+/.build-*

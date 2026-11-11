@@ -14,6 +14,23 @@ ideas of birth/death state, sequence tracking, and retained truth from industria
 it is deliberately **not Sparkplug wire-compatible**. That boundary is documented so the lab never
 claims interoperability it does not provide.
 
+## Editable workbench and native application candidate
+
+The full dashboard now includes a practical authoring workspace. Edit campaign
+settings and ordered events, step/replay the original lifecycle engine, inspect
+queue/consumer state and explicit failures, search evidence and export actual
+project/checkpoint/report files. Cold-chain, factory and utility inputs are
+editable examples inside this full application. The original seven independent
+reliability scenarios remain separately available.
+
+A Windows x64 portable candidate bundles the complete offline application with
+explicit revision-aware local Save/Load, prior-revision preservation and safe
+normal Quit through accepted file operations. It does not require an end-user
+Node/Python/broker setup. Local/hosted package acceptance and any later published
+release/installation are separate evidence. Read the [practical application guide](docs/native-application.md)
+for exact controls, external plaintext profile location, recovery, distribution
+and original JSON-profile limits. This app never connects a live MQTT adapter.
+
 ## What this repository demonstrates
 
 - MQTT 5 client configuration through a narrow MQTT.js adapter.

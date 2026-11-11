@@ -47,6 +47,9 @@ jobs:
       - name: Run type-aware lint
         run: pnpm lint
 
+      - name: Audit the complete locked root graph
+        run: pnpm audit --audit-level moderate
+
       - name: Run unit tests and coverage gates
         run: pnpm test
 
@@ -55,6 +58,9 @@ jobs:
 
       - name: Build dashboard
         run: pnpm build
+
+      - name: Verify source declaration anchors
+        run: pnpm symbols:check
 
       - name: Generate scenario evidence
         run: pnpm scenario

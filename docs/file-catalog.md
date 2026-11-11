@@ -138,4 +138,12 @@ This catalog gives every tracked file a single responsibility. Generated directo
 | `.github/workflows/native-app.yml`                                 | Full Windows archive acceptance; bounded proof default and full-package trusted-main opt-in.                       |
 | `docs/native-application.md`                                       | Practical use/build/recovery instructions and concrete trust/compatibility limits.                                 |
 
-- `docs/reports/native-application-2026-11-11.md` — observed original/model/native checks, repaired candidate failures and precise evidence limits.
+- `docs/reports/native-application-2026-11-11.md` â€” observed original/model/native checks, repaired candidate failures and precise evidence limits.
+
+## Current installed application publication
+
+| File                                                 | Responsibility                                                                |
+| ---------------------------------------------------- | ----------------------------------------------------------------------------- |
+| `docs/reports/windows-application-guide-1.1.0.docx`  | Reviewed current installed app use, screenshots and immutable implementation. |
+| `docs/reports/windows-application-guide-1.1.0.json`  | Exact document, source, image and reviewed page identities.                   |
+| `docs/reports/installed-windows-1.1.0-2026-11-11.md` | Installed validation observations and practical limits.                       |

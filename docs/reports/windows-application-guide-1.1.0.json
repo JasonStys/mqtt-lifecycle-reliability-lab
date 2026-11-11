@@ -1,0 +1,66 @@
+{
+  "schema": 1,
+  "repository": "mqtt-lifecycle-reliability-lab",
+  "runtimeVersion": "1.1.0",
+  "runtimeSource": "8eeaa006201f9173d0454d0ca975f11b10a860a2",
+  "createdAt": "2026-11-11T16:20:44.684Z",
+  "author": "Jason Stys",
+  "document": "windows-application-guide-1.1.0.docx",
+  "sha256": "5452645dd78e19e8b9ccf9869a46f232594ac02a74bbd1c66bf93dc3d1e746b6",
+  "screenshots": [
+    {
+      "file": "native-cold-chain-recovery.png",
+      "sha256": "e90bcd3a6d687c11bbdb1f543e60b12b32ccdd731330db7e1437d3d70dd93fe0",
+      "width": 2079,
+      "height": 1407,
+      "caption": "Actual installed cold-chain campaign after ten events: expired and dropped samples remain visible, with project settings and event inspection."
+    },
+    {
+      "file": "native-utility-evidence.png",
+      "sha256": "aa63496336572580fb4626f57f90690bbf21ec6a8c8ff032e4e03a4b335c502d",
+      "width": 2079,
+      "height": 1407,
+      "caption": "Actual installed utility campaign retains the selected replay prefix and export controls. The complete ordered evidence remains in the report below this viewport."
+    }
+  ],
+  "snippets": [
+    {
+      "file": "src/workbench/campaign.ts",
+      "first": 175,
+      "last": 193,
+      "sha256": "b56fb0f96d09c5e811d04945949e711fec4b01204d95d67a10e2b1b875a4a934",
+      "url": "https://github.com/JasonStys/mqtt-lifecycle-reliability-lab/blob/8eeaa006201f9173d0454d0ca975f11b10a860a2/src/workbench/campaign.ts#L175"
+    }
+  ],
+  "observedTests": [
+    {
+      "name": "Independent distribution",
+      "observed": "Downloaded provider assets, sidecar and installed file identities matched. The complete installed app was used; installation resources remained byte-identical.",
+      "result": "Passed"
+    },
+    {
+      "name": "Actual app use and restart",
+      "observed": "The complete installed consumer exercised all three industries, all seven original scenarios, exact prefix counters, inspection/search, project/report/checkpoint bytes, invalid input preservation, current/previous revisions and two normal exits.",
+      "result": "Passed"
+    },
+    {
+      "name": "Source and security",
+      "observed": "All current main workflows passed before publication. All configured exact-source processed CodeQL categories had zero raw findings and zero open alerts.",
+      "result": "Passed"
+    },
+    {
+      "name": "Individual shortcut",
+      "observed": "Desktop and Start-menu targets were read back against the installed version. Normal default-profile shortcut activation is separate from full installed executable acceptance.",
+      "result": "Verified"
+    }
+  ],
+  "visualReview": "all four pages individually approved",
+  "reviewer": "root",
+  "reviewedPageHashes": {
+    "page-1.png": "d6bbbd11aefb52613cff8119633ee294555a6c9e306490d8efd77f3cc6158507",
+    "page-2.png": "e72a0648e6bfc30e306021bcb3b8eb70e310fa8a911a41eeeeb45529187b3ac5",
+    "page-3.png": "c444dd3c7b13adea61b44eea67e784a5c8d5d7d8f1095b14781acd908c3db1e8",
+    "page-4.png": "6b88a2f86ca18ceb31acc7b15b0b18927a3b2b6d5bbdffb3d11a63ef4276eaba"
+  },
+  "privateTestInputsOnly": true
+}

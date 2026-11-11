@@ -178,3 +178,7 @@ Released under the [MIT License](LICENSE).
 Start with the [organized handbook](docs/handbook.md) for current usage, design, security and test guidance. Reviewed downloadable editions: [project-guide.docx](docs/reports/project-guide.docx).
 
 [Publication identities and source scope](docs/reports/publications.json) · [Documentation validation record](docs/reports/documentation-refresh-2026-11-09.md). Historical results retain their own tested revision and date.
+
+## Current installed application guide
+
+The published **1.1.0** application has a [four-page guide](docs/reports/windows-application-guide-1.1.0.docx) with actual installed screenshots, a practical journey, immutable source excerpts and operating limits. The [installed validation report](docs/reports/installed-windows-1.1.0-2026-11-11.md) explains the results and [review manifest](docs/reports/windows-application-guide-1.1.0.json) records exact source, image and page identities. Historical documentation remains available.

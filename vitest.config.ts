@@ -9,7 +9,7 @@ export default defineConfig({
   test: {
     coverage: {
       exclude: ['src/cli.ts', 'src/mqtt/**', 'src/reporting/**'],
-      include: ['src/core/**', 'src/lab/**'],
+      include: ['src/core/**', 'src/lab/**', 'src/workbench/campaign.ts'],
       provider: 'v8',
       reporter: ['text', 'json-summary', 'html'],
       thresholds: {

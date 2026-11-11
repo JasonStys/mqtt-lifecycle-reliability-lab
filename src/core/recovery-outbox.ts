@@ -74,7 +74,10 @@ export interface RecoveryStatistics extends OutboxStatistics {
 
 /** Rejects oversized or malformed JSON before any queue mutation; callers bind its node identity. */
 export function readCheckpoint(serialized: string): Checkpoint {
-  if (Buffer.byteLength(serialized, 'utf8') > MAX_CHECKPOINT_BYTES)
+  if (
+    serialized.length > MAX_CHECKPOINT_BYTES ||
+    new TextEncoder().encode(serialized).byteLength > MAX_CHECKPOINT_BYTES
+  )
     throw new Error('checkpoint exceeds 1 MiB');
   return checkpointSchema.parse(JSON.parse(serialized));
 }

@@ -1,0 +1,36 @@
+{
+  "name": "mqtt-lifecycle-workbench-native",
+  "version": "1.1.0",
+  "private": true,
+  "author": "Jason Stys",
+  "description": "Editable offline MQTT lifecycle reliability workbench using the original engine",
+  "main": "main.cjs",
+  "scripts": {
+    "test": "node --import tsx --test tests/*.test.cjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.64.1",
+    "electron": "44.11.0",
+    "electron-builder": "26.18.0"
+  },
+  "overrides": {
+    "minimatch@>=7 <11.0.1": "11.0.1"
+  },
+  "build": {
+    "appId": "com.jasonstys.mqttlifecycleworkbench",
+    "productName": "MQTT Lifecycle Workbench",
+    "directories": {
+      "output": "../release/native"
+    },
+    "files": [
+      "*.cjs",
+      "package.json"
+    ],
+    "win": {
+      "target": "dir",
+      "executableName": "MqttLifecycleWorkbench",
+      "signExecutable": false
+    },
+    "asar": true
+  }
+}

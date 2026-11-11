@@ -7,8 +7,9 @@
       name="description"
       content="MQTT lifecycle reliability scenario dashboard with state, fault, and validation evidence."
     />
-    <title>Lifecycle Reliability Lab</title>
+    <title>MQTT Lifecycle Workbench | Jason Stys</title>
     <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="/workbench.css" />
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to results</a>
@@ -25,6 +26,160 @@
     </header>
 
     <main id="main">
+      <section class="workbench" aria-labelledby="campaign-heading">
+        <header>
+          <h2 id="campaign-heading">MQTT lifecycle workbench</h2>
+          <button id="campaign-help-open">Workspace help</button>
+        </header>
+        <p>
+          Edit a real offline event campaign, step through the original lifecycle engine and inspect
+          losses/state. No live broker, credentials, device or Sparkplug connection is used.
+        </p>
+        <div class="campaign-actions">
+          <label
+            >Prepared input
+            <select id="campaign-prepared" aria-label="Prepared input">
+              <option value="">Choose an editable input</option>
+              <option value="cold-chain">Cold-chain process replacement</option>
+              <option value="factory">Factory late subscriber</option>
+              <option value="utility">Utility outage and reject-newest</option>
+            </select></label
+          >
+          <button id="campaign-load">Load saved project</button
+          ><button id="campaign-save">Save project</button>
+          <button id="campaign-import">Import project</button
+          ><input type="file" id="campaign-import-file" accept=".json,application/json" hidden />
+          <button id="campaign-export-project">Export project</button
+          ><button id="campaign-export-report">Export complete prefix report</button
+          ><button id="campaign-export-checkpoint">Export checkpoint</button>
+          <button id="campaign-quit">Quit application</button>
+        </div>
+        <p id="campaign-message" role="status"></p>
+        <p id="campaign-error" role="alert"></p>
+        <div class="campaign-columns">
+          <section aria-labelledby="campaign-editor-heading">
+            <h3 id="campaign-editor-heading">Configuration and ordered events</h3>
+            <form id="campaign-settings" class="campaign-settings">
+              <label>Campaign title <input name="title" required maxlength="100" /></label>
+              <label>Group identity <input name="groupId" required maxlength="64" /></label>
+              <label>Node identity <input name="nodeId" required maxlength="64" /></label>
+              <label
+                >Original capacity <input name="capacity" type="number" min="1" max="1000" required
+              /></label>
+              <label
+                >Replacement capacity
+                <input name="restoreCapacity" type="number" min="1" max="1000" required
+              /></label>
+              <label
+                >TTL milliseconds <input name="ttlMs" type="number" min="1" max="86400000" required
+              /></label>
+              <label
+                >Overflow policy
+                <select name="overflowPolicy">
+                  <option value="drop-oldest">Drop oldest</option>
+                  <option value="reject-newest">Reject newest</option>
+                </select></label
+              >
+              <button type="submit">Apply form settings</button>
+            </form>
+            <label for="campaign-json">Complete project JSON</label
+            ><textarea id="campaign-json" spellcheck="false"></textarea>
+            <div class="campaign-actions">
+              <button id="campaign-apply">Validate and apply JSON</button
+              ><button id="campaign-discard">Discard unapplied input edits</button>
+            </div>
+            <p id="campaign-unsaved"></p>
+          </section>
+          <section aria-labelledby="campaign-evidence-heading">
+            <h3 id="campaign-evidence-heading">Actual simulated evidence</h3>
+            <div class="campaign-actions">
+              <button id="campaign-back">Previous event</button
+              ><button id="campaign-next">Next event</button
+              ><button id="campaign-run">Replay all events</button>
+            </div>
+            <p id="campaign-position" aria-live="polite"></p>
+            <p id="campaign-summary"></p>
+            <label
+              >Literal event search
+              <input id="campaign-search" type="search" aria-label="Literal event search"
+            /></label>
+            <label
+              >Outcome
+              <select id="campaign-outcome" aria-label="Outcome">
+                <option value="all">All events</option>
+                <option value="completed">Completed</option>
+                <option value="rejected">Rejected</option>
+              </select></label
+            >
+            <p id="campaign-filter-count"></p>
+            <div class="campaign-table">
+              <table>
+                <caption>
+                  Exact replayed event prefix
+                </caption>
+                <thead>
+                  <tr>
+                    <th>Event</th>
+                    <th>ms</th>
+                    <th>Operation</th>
+                    <th>Operation outcome</th>
+                    <th>Queued</th>
+                    <th>Evidence</th>
+                  </tr>
+                </thead>
+                <tbody id="campaign-events"></tbody>
+              </table>
+            </div>
+            <details open>
+              <summary>Selected event details</summary>
+              <pre id="campaign-detail"></pre>
+            </details>
+            <details>
+              <summary>Current consumer state and counters</summary>
+              <pre id="campaign-snapshot"></pre>
+            </details>
+          </section>
+        </div>
+        <button id="campaign-original">Run original seven reliability scenarios</button>
+        <p>
+          MQTT Lifecycle Workbench 1.1.0 · Created by Jason Stys · github.com/JasonStys. Local
+          plaintext project files; one trusted OS owner. Queues/counters are scoped to each
+          simulated process. Automatic checks are not live MQTT conformance.
+        </p>
+        <dialog id="campaign-help" aria-labelledby="campaign-help-heading">
+          <h2 id="campaign-help-heading">Using the lifecycle workbench</h2>
+          <p>
+            Choose a prepared input inside this full application or edit its identities, queue
+            settings and ordered event JSON. Validate/apply before replay. Previous/Next replays an
+            isolated exact prefix, so stepping backward never mutates prior evidence.
+          </p>
+          <p>
+            Allowed operations: connect, disconnect, crash, subscribe, unsubscribe, new-consumer,
+            publish, checkpoint, restore, restart-broker, duplicate-last and inspect. Events use
+            nondecreasing simulated atMs offsets; publish metrics retain their own explicit
+            sourceTimestamp. An illegal transition is displayed as a rejected operation, never a
+            successful result.
+          </p>
+          <p>
+            Checkpoint requires an offline publisher. Restore requires an existing checkpoint and
+            replaces only an offline publisher with a fresh process. TTL expiry occurs on original
+            queue operations, not a timer. Counts after process replacement belong to that new
+            process; inspect the restore event for expired/shrink losses.
+          </p>
+          <p>
+            Load saved revision before Save. Imported input is not saved automatically. Exports use
+            new files and preserve existing destinations. In a browser, input is memory-only and
+            downloads are explicit. Native storage holds one current configuration and a previous
+            complete revision, without production accounts.
+          </p>
+          <p>
+            Bounds: 64 KiB project; 1–128 events within 24 simulated hours; 1–1000 queue capacity;
+            1–16 validated metrics per publish. The original seven independent scenarios remain
+            below. No real MQTT adapter is invoked.
+          </p>
+          <button id="campaign-help-close">Close help</button>
+        </dialog>
+      </section>
       <section aria-labelledby="summary-heading">
         <div class="section-heading">
           <p class="eyebrow">Current snapshot</p>

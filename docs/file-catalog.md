@@ -117,3 +117,25 @@ This catalog gives every tracked file a single responsibility. Generated directo
 | `docs/reports/publications.json`                   | Exact Office byte digests, visual approval scopes and immutable source/evidence identities. |
 | `docs/reports/documentation-refresh-2026-11-09.md` | Dated documentation integration checks and interpretation limits.                           |
 | `.gitattributes`                                   | LF text normalization and explicit Word binary handling.                                    |
+
+## Full offline/native workbench additions
+
+| File                                                               | Responsibility                                                                                                     |
+| ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ |
+| `src/workbench/campaign.ts`                                        | Closed bounded campaign input, realistic editable data and exact-prefix replay using original lifecycle engines.   |
+| `dashboard/workbench.ts`                                           | Explicit draft/applied/saved UI state, forms, input/refusal, event inspection/filtering and exact file exports.    |
+| `dashboard/workbench.css`                                          | Responsive readable editing, evidence and help controls.                                                           |
+| `tests/unit/workbench-campaign.test.ts`                            | Authored independent industry/counter/timestamp/transition and boundary oracles.                                   |
+| `desktop/main.cjs`, `desktop/preload.cjs`                          | Sandboxed full app, exact sender-bound narrow IPC, direct proxy and accepted-work normal shutdown.                 |
+| `desktop/files.cjs`, `desktop/profile.cjs`, `desktop/assets.cjs`   | User-file descriptor/alias bounds, durable current/previous revision and immutable public-only resource listener.  |
+| `desktop/package.json`, `desktop/package-lock.json`                | Separate exact private Electron/build/acceptance graph.                                                            |
+| `desktop/tests/`                                                   | Real filesystem/revision/HTTP/resource-boundary cases.                                                             |
+| `scripts/build-native.mjs`                                         | Source-bound complete app build, fixed original-engine model, notices and authored radio-wave icon.                |
+| `scripts/locked-notice.mjs`, `tests/native/locked-notice.test.mjs` | Separate bounded read-only fixed dependency notice admission, including actual pnpm hardlinks.                     |
+| `scripts/archive_native.py`, `tests/test_native_archive.py`        | Complete bounded ZIP/extraction and actual relocated native consumer; no end-user Python dependency.               |
+| `scripts/test-native-app.mjs`                                      | Real three-industry GUI, model/file refusals, exports, previous bytes, pending-I/O Close and two durable launches. |
+| `scripts/generate-code-map.mjs`                                    | Actual declaration/parameter source locations, checked against formatted authored bytes.                           |
+| `.github/workflows/native-app.yml`                                 | Full Windows archive acceptance; bounded proof default and full-package trusted-main opt-in.                       |
+| `docs/native-application.md`                                       | Practical use/build/recovery instructions and concrete trust/compatibility limits.                                 |
+
+- `docs/reports/native-application-2026-11-11.md` — observed original/model/native checks, repaired candidate failures and precise evidence limits.

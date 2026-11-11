@@ -1,6 +1,6 @@
 {
   "name": "mqtt-lifecycle-reliability-lab",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Deterministic MQTT lifecycle and reliability laboratory for edge telemetry systems.",
   "type": "module",
   "private": true,
@@ -21,8 +21,15 @@
     "test:integration": "vitest run --config vitest.integration.config.ts",
     "test:unit": "vitest run tests/unit",
     "typecheck": "tsc --noEmit",
-    "verify": "pnpm format:check && pnpm lint && pnpm test && pnpm test:integration && pnpm build && pnpm scenario && pnpm recovery && pnpm benchmark",
-    "recovery": "tsx src/recovery-cli.ts"
+    "verify": "pnpm format:check && pnpm lint && pnpm test && pnpm test:integration && pnpm build && pnpm scenario && pnpm recovery && pnpm benchmark && pnpm symbols:check && pnpm audit",
+    "recovery": "tsx src/recovery-cli.ts",
+    "build:native": "node scripts/build-native.mjs",
+    "test:native-boundaries": "npm --prefix desktop test",
+    "test:native-app": "node --import tsx scripts/test-native-app.mjs",
+    "symbols": "node scripts/generate-code-map.mjs",
+    "symbols:check": "node scripts/generate-code-map.mjs --check",
+    "test:native-notices": "node --test tests/native/locked-notice.test.mjs",
+    "audit": "pnpm audit --audit-level moderate"
   },
   "dependencies": {
     "mqtt": "5.16.1",

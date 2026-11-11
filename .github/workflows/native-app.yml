@@ -1,0 +1,88 @@
+# File: native-app.yml
+# Purpose: Build the actual offline lifecycle reliability app and use its fully relocated Windows archive.
+# State: read-only source checks; bounded proof retention by default; no installer/release publication.
+name: Native application
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      retain_package:
+        description: Retain the complete unsigned Windows package for explicit main-branch review
+        type: boolean
+        default: false
+permissions:
+  contents: read
+concurrency:
+  group: native-mqtt-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  windows:
+    name: Actual Windows lifecycle reliability application
+    runs-on: windows-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out exact source without persisted credentials
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Set up Node build tools
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24'
+          package-manager-cache: false
+      - name: Install the declared pnpm build manager
+        uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.0.0
+        with:
+          run_install: false
+      - name: Set up patched build-only archive tool
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.14.10'
+          check-latest: true
+      - name: Install locked tools without implicit scripts
+        run: |
+          pnpm install --frozen-lockfile --ignore-scripts
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          npm --prefix desktop ci --ignore-scripts
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $env:ELECTRON_CACHE=Join-Path $PWD '.runtime/electron-download'
+          node desktop/node_modules/electron/install.js
+      - name: Audit the actual native graph
+        run: npm --prefix desktop audit --audit-level=high
+      - name: Verify actual profile, public-listener and archive boundaries
+        run: |
+          npm --prefix desktop test
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          node --test tests/native/locked-notice.test.mjs
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python -m unittest discover -s tests -p 'test_native_archive.py' -v
+      - name: Build the full real application
+        run: |
+          $env:MLW_NATIVE_OUTPUT='release/windows'
+          node scripts/build-native.mjs
+      - name: Relocate the complete ZIP and use its actual executable twice
+        run: python scripts/archive_native.py release/windows/win-unpacked artifacts/native/windows
+      - name: Retain only bounded proof and own-window screenshots by default
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: native-mqtt-acceptance
+          path: |
+            artifacts/native/windows/acceptance.json
+            artifacts/native/windows/archive.json
+            artifacts/native/windows/failure.json
+            artifacts/native/windows/*.png
+          retention-days: 1
+          if-no-files-found: warn
+      - name: Retain full unsigned package only by explicit trusted-main opt-in
+        if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && inputs.retain_package
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: MqttLifecycleWorkbench-1.1.0-windows-x64
+          path: |
+            release/windows/MqttLifecycleWorkbench-1.1.0-windows-x64.zip
+            release/windows/MqttLifecycleWorkbench-1.1.0-windows-x64.zip.sha256
+          retention-days: 1
+          if-no-files-found: error
